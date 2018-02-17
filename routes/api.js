@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const apiRouter = require('express').Router();
 const topicsRouter = require('./topics');
+const articlesRouter = require('./articles');
 
 apiRouter.route('/')
   .get((req, res, next) => {
@@ -9,5 +10,6 @@ apiRouter.route('/')
   });
 
 apiRouter.use('/topics', topicsRouter)
+apiRouter.use('/articles', articlesRouter)
 
 module.exports = apiRouter;
