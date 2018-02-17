@@ -28,4 +28,22 @@ const getArticleComments = (req, res, next) => {
     });
 }
 
-module.exports = { getAllArticles, getArticleComments };
+const addArticleComment = (req, res, next) => {
+  if (req.body.comment.length === 0) next({ message: 'Bad request, please ensure you include a comment in your request', status: 400})
+
+  const comment = new Comments({
+    body: req.body.comment,
+    belongs_to: req.params.article_id
+  })
+
+  Articles.findById(req.params.article_id)
+    .then(article => {
+      return comment.save();
+    })
+    .then(comment => {
+      res.status(201).send("Comment successfully added");
+    })
+    .catch(next)
+}
+
+module.exports = { getAllArticles, getArticleComments, addArticleComment };
