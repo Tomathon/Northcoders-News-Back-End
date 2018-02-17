@@ -1,11 +1,12 @@
 if (!process.env.NODE_ENV) process.env.NODE_ENV = 'dev';
 
-var express = require('express');
-var mongoose = require('mongoose');
-var bodyParser = require('body-parser');
-var app = express();
-var config = require('./config');
-var db = config.DB[process.env.NODE_ENV] || process.env.DB;
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const app = express();
+const config = require('./config');
+let db = config.DB[process.env.NODE_ENV] || process.env.DB;
+const apiRouter = require('./routes/api');
 mongoose.Promise = Promise;
 
 mongoose.connect(db, {useMongoClient: true})
@@ -13,5 +14,7 @@ mongoose.connect(db, {useMongoClient: true})
   .catch(err => console.log('connection failed', err));
 
 app.use(bodyParser.json());
+
+app.use('/api', apiRouter);
 
 module.exports = app;
