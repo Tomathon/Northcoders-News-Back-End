@@ -13,9 +13,10 @@ const getAllArticles = (req, res) => {
 }
 
 const getArticleComments = (req, res) => {
-  if (!req.params.article_id.match(/^[0-9a-f]{24}$/)) res.status(400).json({"message": "Please provide a valid Article ID containing only numbers and lowercase letters"})
+  const id = req.params.article_id
+  if (!id.match(/^[0-9a-f]{24}$/)) res.status(400).json({"message": `Id ${id} is invalid. Please provide a valid Article Id containing only numbers and lowercase letters`})
   
-  Comments.find({ belongs_to: req.params.article_id })
+  Comments.find({ belongs_to: id })
     .then(comments => {
       res.status(200).json({comments});
     })
@@ -25,15 +26,16 @@ const getArticleComments = (req, res) => {
 }
 
 const addArticleComment = (req, res) => {
+  const id = req.params.article_id;
   if (req.body.comment.length === 0) res.status(400).json({ "message": "Bad request, please ensure you include a comment in your request"})
-  if (!req.params.article_id.match(/^[0-9a-f]{24}$/)) res.status(400).json({"message": "Please provide a valid Article ID containing only numbers and lowercase letters"})
+  if (!id.match(/^[0-9a-f]{24}$/)) res.status(400).json({"message": `Id ${id} is invalid. Please provide a valid Article Id containing only numbers and lowercase letters`})
 
   const comment = new Comments({
     body: req.body.comment,
-    belongs_to: req.params.article_id
+    belongs_to: id
   })
 
-  Articles.findById(req.params.article_id)
+  Articles.findById(id)
     .then(article => {
       return comment.save()
     })
@@ -49,7 +51,7 @@ const updateArticleVote = (req, res) => {
   const id = req.params.article_id;
   const query = req.query.vote
 
-  if (!id.match(/^[0-9a-f]{24}$/)) res.status(400).json({"message": "Please provide a valid Article ID containing only numbers and lowercase letters"})
+  if (!id.match(/^[0-9a-f]{24}$/)) res.status(400).json({"message": `Id ${id} is invalid. Please provide a valid Article Id containing only numbers and lowercase letters`})
   else if (query !== 'up' && query !== 'down') res.status(400).json({"message": "Please provide a query in the format vote=up or vote=down"})
   else {
     Articles.findByIdAndUpdate(id)
