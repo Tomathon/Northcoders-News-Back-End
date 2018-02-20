@@ -7,13 +7,18 @@ const usersRouter = require('./users');
 const commentsRouter = require('./comments');
 
 apiRouter.route('/')
-  .get((req, res, next) => {
-    res.status(200).json({status: 'OK'})
+  .get((req, res) => {
+    res.status(200).json({"status": "OK"})
   });
 
 apiRouter.use('/topics', topicsRouter)
 apiRouter.use('/articles', articlesRouter)
 apiRouter.use('/users', usersRouter)
 apiRouter.use('/comments', commentsRouter)
+
+apiRouter.route('/*')
+  .get((req, res) => {
+    res.status(404).json("404, Page not found")
+  })
 
 module.exports = apiRouter;
