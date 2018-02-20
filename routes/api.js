@@ -18,7 +18,7 @@ apiRouter.use('/comments', commentsRouter)
 
 apiRouter.route('/*')
   .get((req, res) => {
-    res.status(404).json("404, Page not found")
+    res.status(404).json({"mesage": "404, Page not found"})
   })
 
 module.exports = apiRouter;
