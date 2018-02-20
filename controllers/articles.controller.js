@@ -2,34 +2,31 @@ const mongoose = require('mongoose');
 const Articles = require('../models/articles');
 const Comments = require('../models/comments')
 
-const getAllArticles = (req, res, next) => {
+const getAllArticles = (req, res) => {
   Articles.find()
     .then(articles => {
       res.status(200).json({articles});
     })
     .catch(err => {
-      return next({
-        status: 404,
-        message: "404, page not found"
-      })
+      res.status(500).json({"message": "Sorry, something went wrong"})
     });
 }
 
-const getArticleComments = (req, res, next) => {
+const getArticleComments = (req, res) => {
+  if (!req.params.article_id.match(/^[0-9a-f]{24}$/)) res.status(400).json({"message": "Please provide a valid Article ID containing only numbers and lowercase letters"})
+  
   Comments.find({ belongs_to: req.params.article_id })
     .then(comments => {
       res.status(200).json({comments});
     })
     .catch(err => {
-      return next({
-        status: 404,
-        message: "404, page not found"
-      })
+        res.status(500).json({"message": "Sorry, something went wrong"})
     });
 }
 
-const addArticleComment = (req, res, next) => {
-  if (req.body.comment.length === 0) next({ message: 'Bad request, please ensure you include a comment in your request', status: 400})
+const addArticleComment = (req, res) => {
+  if (req.body.comment.length === 0) res.status(400).json({ "message": "Bad request, please ensure you include a comment in your request"})
+  if (!req.params.article_id.match(/^[0-9a-f]{24}$/)) res.status(400).json({"message": "Please provide a valid Article ID containing only numbers and lowercase letters"})
 
   const comment = new Comments({
     body: req.body.comment,
@@ -38,20 +35,22 @@ const addArticleComment = (req, res, next) => {
 
   Articles.findById(req.params.article_id)
     .then(article => {
-      return comment.save();
+      return comment.save()
     })
     .then(comment => {
-      res.status(201).send("Comment successfully added");
+      res.status(201).send("Comment successfully added")
     })
-    .catch(next)
+    .catch(err => {
+      res.status(500).json({"message": "Sorry, something went wrong"})
+    })
 }
 
-const updateArticleVote = (req, res, next) => {
+const updateArticleVote = (req, res) => {
   const id = req.params.article_id;
   const query = req.query.vote
-  console.log(id, query)
-  if (!id.match(/^[0-9a-f]{24}$/)) next({message: `Comment ${id} does not exist, please enter a valid comment id`, status: 400})
-  else if (query !== 'up' && query !== 'down') next({message: "Please provide a query in the format vote=up or vote=down", status: 400})
+
+  if (!id.match(/^[0-9a-f]{24}$/)) res.status(400).json({"message": "Please provide a valid Article ID containing only numbers and lowercase letters"})
+  else if (query !== 'up' && query !== 'down') res.status(400).json({"message": "Please provide a query in the format vote=up or vote=down"})
   else {
     Articles.findByIdAndUpdate(id)
     .then(comment => {
@@ -63,9 +62,10 @@ const updateArticleVote = (req, res, next) => {
       .then(updatedComment => {
         res.status(201).send(`Thanks for your vote on Comment ${id}`)
       })
-      .catch(next)
+      .catch(err => {
+        res.status(500).json({"message": "Sorry, something went wrong"})
+      })
   }
 }
-
 
 module.exports = { getAllArticles, getArticleComments, addArticleComment, updateArticleVote };
