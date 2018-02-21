@@ -28,23 +28,24 @@ const getArticleComments = (req, res) => {
 const addArticleComment = (req, res) => {
   const id = req.params.article_id;
   if (req.body.comment.length === 0) res.status(400).json({ "message": "Bad request, please ensure you include a comment in your request"})
-  if (!id.match(/^[0-9a-f]{24}$/)) res.status(400).json({"message": `Id ${id} is invalid. Please provide a valid Article Id containing only numbers and lowercase letters`})
+  else if (!id.match(/^[0-9a-f]{24}$/)) res.status(400).json({"message": `Id ${id} is invalid. Please provide a valid Article Id containing only numbers and lowercase letters`})
+  else {
+    const comment = new Comments({
+      body: req.body.comment,
+      belongs_to: id
+    })
 
-  const comment = new Comments({
-    body: req.body.comment,
-    belongs_to: id
-  })
-
-  Articles.findById(id)
-    .then(article => {
-      return comment.save()
-    })
-    .then(comment => {
-      res.status(201).send("Comment successfully added")
-    })
-    .catch(err => {
-      res.status(500).json({"message": "Sorry, something went wrong"})
-    })
+    Articles.findById(id)
+      .then(article => {
+        return comment.save()
+      })
+      .then(comment => {
+        res.status(201).send("Comment successfully added")
+      })
+      .catch(err => {
+        res.status(500).json({"message": "Sorry, something went wrong"})
+      })
+  }
 }
 
 const updateArticleVote = (req, res) => {
