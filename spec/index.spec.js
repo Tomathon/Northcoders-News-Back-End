@@ -93,4 +93,26 @@ describe('API endpoints', () => {
         })
     })
   });
+
+  describe('/users API endpoints', () => {
+    it('getUser returns the details of the requested user', () => {
+      const user = docs.user.username
+      return request
+        .get(`/api/users/${user}`)
+        .expect(200)
+        .then(res => {
+          expect(res.body.user.username).to.equal('northcoder')
+          expect(res.body.user.name).to.equal('Awesome Northcoder')
+          expect(res.body.user.avatar_url).to.equal('https://avatars3.githubusercontent.com/u/6791502?v=3&s=200')
+        })
+    })
+    it('getUser responds with a 400 HTTP response when provided with a invalid username', () => {
+      return request
+        .get('/api/users/invalidUser')
+        .expect(400)
+        .then(res => {
+          expect(res.body).to.eql({ "message": 'Username does not exist, please ensure the username is valid' })
+        })
+    })
+  })
 });
