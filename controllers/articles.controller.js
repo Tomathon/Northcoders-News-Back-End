@@ -40,7 +40,7 @@ const addArticleComment = (req, res) => {
         return comment.save()
       })
       .then(comment => {
-        res.status(201).send("Comment successfully added")
+        res.status(201).json({"message": "Comment successfully added"})
       })
       .catch(err => {
         res.status(500).json({"message": "Sorry, something went wrong"})
@@ -63,7 +63,7 @@ const updateArticleVote = (req, res) => {
       return Articles.update({_id: id}, {votes: votes})
       })
       .then(updatedComment => {
-        res.status(201).send(`Thanks for your vote on Comment ${id}`)
+        res.status(201).json({"message": `Thanks for your vote on Comment ${id}`})
       })
       .catch(err => {
         res.status(500).json({"message": "Sorry, something went wrong"})
