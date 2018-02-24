@@ -52,7 +52,7 @@ describe('API endpoints', () => {
         .send({"comment": "This is a comment for testing"})
         .expect(201)
         .then(res => {
-          expect(res.text).to.equal('Comment successfully added')
+          expect(res.body).to.eql({ "message": "Comment successfully added" })
         })
     })
     it('addArticleComment responds with a 400 HTTP response if an invalid article ID is sent in the request', () => {
@@ -80,7 +80,7 @@ describe('API endpoints', () => {
         .put(`/api/articles/${articleId}?vote=up`)
         .expect(201)
         .then(res => {
-          expect(res.text).to.equal(`Thanks for your vote on Comment ${articleId}`)
+          expect(res.body).to.eql({ "message":`Thanks for your vote on Comment ${articleId}` })
         })
     })
     it('updateArticleVote responds with a 400 HTTP response if the query parameters are not in the format "?vote=up" or "?vote=down"', () => {
