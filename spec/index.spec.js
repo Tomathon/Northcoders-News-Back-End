@@ -115,4 +115,34 @@ describe('API endpoints', () => {
         })
     })
   })
+
+  describe('/topics API endpoints', () => {
+    it('getAllTopics returns all available topics', () => {
+      return request
+        .get('/api/topics')
+        .expect(200)
+        .then(res => {
+          expect(res.body.topics).to.be.an('Array')
+          expect(res.body.topics.length).to.equal(3)
+        })
+    })
+    it('getArticlesByTopicId returns all the articles associate with the provided topic ID', () => {
+      const topicId = docs.topics[0]._id
+      return request
+        .get(`/api/topics/${topicId}/articles`)
+        .expect(200)
+        .then(res => {
+          expect(res.body.articles).to.be.an('Array')
+          expect(res.body.articles.length).to.equal(1)
+        })
+    })
+    it('getArticlesByTopicID responds with a 400 HTTP response when provided with an invalid ID', () => {
+      return request
+        .get('/api/topics/InvalidId/articles')
+        .expect(400)
+        .then(res => {
+          expect(res.body).to.eql({ "message": "Topic ID:InvalidId does not exist, please enter a valid Topic ID" })
+        })
+    })
+  })
 });
