@@ -145,4 +145,50 @@ describe('API endpoints', () => {
         })
     })
   })
+
+  describe('/comments API endpoints', () => {
+    it('deleteComment deletes the comment with the provided ID', () => {
+      const commentId = docs.comments[0]._id
+      return request
+        .delete(`/api/comments/${commentId}`)
+        .expect(202)
+        .then(res => {
+          expect(res.body).to.eql({"message": `Comment ${commentId} has been successfully deleted`})
+        })
+    })
+    it('deleteComment responds with a 400 HTTP response when provided with an invalid ID', () => {
+      return request
+        .delete('/api/comments/InvalidId')
+        .expect(400)
+        .then(res => {
+          expect(res.body).to.eql({ "message": "Comment InvalidId does not exist, please enter a valid comment id" })
+        })
+    })
+    it('updateCommentVote updates the vote count up or down by 1 for a given article ID', () => {
+      const commentId = docs.comments[0]._id
+      return request
+        .put(`/api/comments/${commentId}?vote=up`)
+        .expect(201)
+        .then(res => {
+          expect(res.body).to.eql({"message": `Thanks for your vote on Comment ${commentId}`})
+      })
+    })
+    it('updateCommentVote responds with a 400 HTTP response if the query parameters are not in the format "?vote=up" or "?vote=down"', () => {
+      const commentId = docs.comments[0]._id
+      return request
+        .put(`/api/comments/${commentId}?vote=pup`)
+        .expect(400)
+        .then(res => {
+          expect(res.body).to.eql({ "message": "Please provide a query in the format vote=up or vote=down" })
+        })
+    })
+    it('updateCommentVote responds with a 400 HTTP response if the comment ID is invalid', () => {
+      return request
+        .put(`/api/comments/InvalidId?vote=up`)
+        .expect(400)
+        .then(res => {
+          expect(res.body).to.eql({"message": "Comment InvalidId does not exist, please enter a valid comment id"})
+        })
+    })
+  })
 });
