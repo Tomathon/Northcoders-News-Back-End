@@ -13,7 +13,10 @@ const getAllTopics = (req, res) => {
 }
 
 const getArticlesByTopicId = (req, res) => {
-  Topics.find({_id : req.params.topic_id})
+  const id = req.params.topic_id
+  if (!id.match(/^[0-9a-f]{24}$/)) res.status(400).json({"message": `Topic ID:${id} does not exist, please enter a valid Topic ID`})
+  else {
+  Topics.find({_id : id})
     .then(topic => {
       return Articles.find({belongs_to : topic[0].slug})
     })
@@ -23,6 +26,7 @@ const getArticlesByTopicId = (req, res) => {
     .catch(err => {
       res.status(500).json({"message": "Sorry, something went wrong"})
     });
+  }
 }
 
 module.exports = { getAllTopics, getArticlesByTopicId };
