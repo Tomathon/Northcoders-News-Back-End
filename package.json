@@ -4,8 +4,9 @@
   "description": "### Background",
   "main": "config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "test": "mocha spec/index.spec.js",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
@@ -18,5 +19,20 @@
     "moment": "^2.17.0",
     "mongoose": "^4.7.0",
     "underscore": "^1.8.3"
-  }
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.0.1",
+    "nodemon": "^1.15.0",
+    "supertest": "^3.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tomathon/BE-FT-northcoders-news.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/Tomathon/BE-FT-northcoders-news/issues"
+  },
+  "homepage": "https://github.com/Tomathon/BE-FT-northcoders-news#readme"
 }
