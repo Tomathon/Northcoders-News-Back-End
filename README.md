@@ -1,44 +1,47 @@
 ## Northcoders News API
 
-### Background
+### About
 
-We will be building the API which we used in the Northcoders News Sprint during the
-Front End block of the course. Your mongoose models and a Database seed file have been done for you.
+A RESTful API for Northcoders News, a Reddit-style social news, web content rating and discussion website. Built with Node.js(8.4.0), Express(4.14.0), MongoDB(3.4.7) and Mongoose(4.7.0).
 
-Look closely at the response you get for each route on http://northcoders-news-api.herokuapp.com/ You will notice that we also send data such as the comment and vote count for each article. You will need to think carefully about how to do this in your API.
+### Installation
 
-You will need to get all your routes built up first as you can share the functionality between you `GET comments by id` route and the comment count on the articles response for example.
+Please ensure you have the following dependencies running on your local machine before cloning this repo:
 
-### Mongoose Documentation
+[Node.js](https://nodejs.org/en/download/)
+[Express](https://expressjs.com/en/starter/installing.html)
+[MongoDB](https://www.mongodb.com/download-center?jmp=tutorials#community)
+[Mongoose](http://mongoosejs.com/docs/index.html)
 
-The below are all model methods that you call on your models.
+Clone this repository and in the command line on your local machine and type the following:
+```
+git clone https://github.com/Tomathon/BE-FT-northcoders-news.git
+```
+Navigate into the cloned local repository and install all dependencies from the package.json file by typing the following:
+```
+npm install
+```
+In a new terminal widow, connect to the database and type:
+```
+mongod
+```
+To seed the database with data, type the following in a new terminal window:
+```
+node seed/seed.js
+```
+The server can now be run on your local machine on port 3000. To do this type:
+```
+npm start
+```
 
-* [find](http://mongoosejs.com/docs/api.html#model_Model.find)
-* [findOne](http://mongoosejs.com/docs/api.html#model_Model.findOne)
-* [findOneAndUpdate](http://mongoosejs.com/docs/api.html#model_Model.findOneAndUpdate)
-* [findOneAndRemove](http://mongoosejs.com/docs/api.html#model_Model.findOneAndRemove)
-* [findById](http://mongoosejs.com/docs/api.html#model_Model.findById)
-* [findByIdAndUpdate](http://mongoosejs.com/docs/api.html#model_Model.findByIdAndUpdate)
-* [findByIdAndRemove](http://mongoosejs.com/docs/api.html#model_Model.findByIdAndRemove)
-* [update](http://mongoosejs.com/docs/api.html#model_Model.update)
+### Testing
 
-There are also some methods that can be called on the documents that get returned. These are:
+To test the API endpoints on your local machine enter the following command in your terminal window:
+```
+npm test
+```
 
-* [remove](http://mongoosejs.com/docs/api.html#model_Model-remove)
-* [save](http://mongoosejs.com/docs/api.html#model_Model-save)
-* [count](http://mongoosejs.com/docs/api.html#model_Model.count)
-
-### Tasks
-
-1. Seed your database with the main seed file `$ node seed/seed.js`
-2. Build your express App
-3. Mount an API Router onto your app
-4. Define the routes described below
-5. Define controller functions for each of your routes
-6. Once you have all your routes start to tackle responding with the vote and comment counts on article requests like this http://northcoders-news-api.herokuapp.com/api/articles
-7. Test your api routes!
-
-### Routes
+### API Routes
 ```
 GET /api/topics
 ```
