@@ -10,8 +10,9 @@ var log4js = require('log4js');
 var logger = log4js.getLogger();
 var moment = require('moment');
 var DBs = require('../config').DB;
+mongoose.Promise = Promise;
 
-mongoose.connect(DBs.dev, function (err) {
+mongoose.connect(DBs.dev, {useMongoClient: true}, function (err) {
   if (!err) {
     logger.info(`connected to database ${DBs.dev}`);
     mongoose.connection.db.dropDatabase();
@@ -24,7 +25,6 @@ mongoose.connect(DBs.dev, function (err) {
     ], function (err) {
       if (err) {
         logger.error('ERROR SEEDING :O');
-        console.log(JSON.stringify(err));
         process.exit();
       }
       logger.info('DONE SEEDING!!');
@@ -32,7 +32,6 @@ mongoose.connect(DBs.dev, function (err) {
     });
   } else {
     logger.error('DB ERROR');
-    console.log(JSON.stringify(err));
     process.exit();
   }
 });
