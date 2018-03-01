@@ -16,6 +16,6 @@ mongoose.connect(db, {useMongoClient: true})
 app.use(bodyParser.json());
 
 app.use('/api', apiRouter);
-app.use('/', (req, res) => res.status(200).sendFile(__dirname + './index.hmtl'))
+app.use('/', (req, res) => res.status(200).sendFile(__dirname + './index.html'))
 
 module.exports = app;
