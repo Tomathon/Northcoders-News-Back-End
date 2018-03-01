@@ -3,15 +3,26 @@
 ### About
 
 A RESTful API for Northcoders News, a Reddit-style social news, web content rating and discussion website. Built with Node.js(8.4.0), Express(4.14.0), MongoDB(3.4.7) and Mongoose(4.7.0).
+This API has been deployed on Heroku [here](https://pure-thicket-72217.herokuapp.com)
 
 ### Installation
 
 Please ensure you have the following dependencies running on your local machine before cloning this repo:
 
-[Node.js](https://nodejs.org/en/download/)
-[Express](https://expressjs.com/en/starter/installing.html)
-[MongoDB](https://www.mongodb.com/download-center?jmp=tutorials#community)
-[Mongoose](http://mongoosejs.com/docs/index.html)
+To check you have [Node.js](https://nodejs.org/en/download/) installed, open a terminal window and type:
+```
+node -v
+```
+
+To check you have [MongoDB](https://www.mongodb.com/download-center?jmp=tutorials#community) installed, open a terminal window and type:
+```
+mongo --version
+```
+
+To check you have [Git](https://git-scm.com) installed, open a terminal window and type:
+```
+git --version
+```
 
 Clone this repository and in the command line on your local machine and type the following:
 ```
