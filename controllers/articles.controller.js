@@ -12,6 +12,21 @@ const getAllArticles = (req, res) => {
     });
 }
 
+const getOneArticle = (req, res) => {
+  const id = req.params.article_id
+  if (!id.match(/^[0-9a-f]{24}$/)) res.status(400).json({"message": `Id ${id} is invalid. Please provide a valid Article Id containing only numbers and lowercase letters`})
+  else {
+  return Articles.findOne({ _id: id })
+    .then(article => {
+      if (article === null) return res.status(404).json({"mesage": "404, Page not found"});
+      else return res.json({article});
+    })
+    .catch(err => {
+        res.status(500).json({"message": "Sorry, something went wrong"})
+    });
+  }
+};
+
 const getArticleComments = (req, res) => {
   const id = req.params.article_id
   if (!id.match(/^[0-9a-f]{24}$/)) res.status(400).json({"message": `Id ${id} is invalid. Please provide a valid Article Id containing only numbers and lowercase letters`})
@@ -71,4 +86,4 @@ const updateArticleVote = (req, res) => {
   }
 }
 
-module.exports = { getAllArticles, getArticleComments, addArticleComment, updateArticleVote };
+module.exports = { getAllArticles, getOneArticle, getArticleComments, addArticleComment, updateArticleVote };
