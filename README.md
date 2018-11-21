@@ -3,7 +3,6 @@
 ### About
 
 A RESTful API for Northcoders News, a Reddit-style social news, web content rating and discussion website. Built with Node.js(8.4.0), Express(4.14.0), MongoDB(3.4.7) and Mongoose(4.7.0).
-This API has been deployed on Heroku [here](https://pure-thicket-72217.herokuapp.com)
 
 ### Installation
 
